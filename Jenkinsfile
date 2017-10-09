@@ -48,6 +48,8 @@ node{
 
                     def uploadSpec = """{"files": [{"pattern": "**/*corporate*.apk",  "target": "${ARTEFACTORY.RUTA_ARTEFACTORY}" }] }"""
 
+                    echo 'variablesssssssssssssss= ${uploadSpec}'
+
                    if(ARTEFACTORY.PUBLISH_ARTEFACTORY==1){
                         def buildInfo2 =  server.upload(uploadSpec)
                         server.publishBuildInfo(buildInfo2)

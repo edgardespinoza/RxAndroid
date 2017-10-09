@@ -9,76 +9,83 @@ def ARTEFACTORY = [
 
 def server = Artifactory.server 'artefactoryID'
 
+parallel (
 
-node{
-
-        try{
-
-        		stage("lanzando emulador"){
-        		        try{
-        		            bat ("%ANDROID_HOME%/tools/emulator @Nexus_5X_API_24")
-        		        }catch(Exception e){}
-                 }
-
-
-
-                stage("GET SOURCE"){
-                    checkout scm
-                }
-
-                 if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
-                    stage("ANALYZE SONARQUBE"){
-                       withSonarQubeEnv("SonarServidor"){
-                          bat ("gradlew clean createCorporateDebugCoverageReport jacocoTestReport --info sonarqube")
-                        }
-                    }
-
-
-                     stage("Quality Gate"){
-                       timeout(time: 1, unit: 'HOURS') {
-                           def qg = waitForQualityGate()
-                           if (qg.status != 'OK') {
-                               cerrarEmu()
-                               enviarMailError( )
-                               error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                           }
-                       }
-                   }
-                 }
-
-                stage("BUILD ARTEFACTORY"){
-                    bat ("gradlew clean assembleCorporateDebug")
-                }
-
-                stage ("PUBLISH ARTEFACTORY"){
-
-                    ARTEFACTORY.RUTA_ARTEFACTORY = "Artefactory_IBK/sprint-${ARTEFACTORY.SPRINT_NUMBER}/${ARTEFACTORY.APP}/${env.BRANCH_NAME}/"
-
-                    def uploadSpec = """{"files": [{"pattern": "**/*corporate*.apk",  "target": "${ARTEFACTORY.RUTA_ARTEFACTORY}" }] }"""
-
-                    echo 'variablesssssssssssssss= ${uploadSpec}'
-
-                   if(ARTEFACTORY.PUBLISH_ARTEFACTORY==1){
-                        def buildInfo2 =  server.upload(uploadSpec)
-                        server.publishBuildInfo(buildInfo2)
-                   }
-                }
-
-                stage("SEND EMAIL OK"){
-                        def files = findFiles(glob: '**/*.apk')
-                        enviarMailOK("PATH : ${ARTEFACTORY.RUTA_ARTEFACTORY}","Artefactory: ${server.url}/${ARTEFACTORY.RUTA_ARTEFACTORY}/"+getNameFile(files))
-                }
-
-                cerrarEmu()
-
-        } catch(Exception e){
-                    cerrarEmu()
-                   stage("SEND EMAIL ERROR"){
-                        enviarMailError( )
-                    }
-                    throw e
+    "stream 1":
+	{
+        node{
+			stage("lanzando emulador"){
+                bat ("%ANDROID_HOME%/tools/emulator @Nexus_5X_API_24 ")
+            }
         }
-}
+    },
+    "stream 2":
+    {
+            node{
+
+                    try{
+
+
+
+                            stage("GET SOURCE"){
+                                checkout scm
+                            }
+
+                             if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
+                                stage("ANALYZE SONARQUBE"){
+                                   withSonarQubeEnv("SonarServidor"){
+                                      bat ("gradlew clean createCorporateDebugCoverageReport jacocoTestReport --info sonarqube")
+                                    }
+                                }
+
+
+                                 stage("Quality Gate"){
+                                   timeout(time: 1, unit: 'HOURS') {
+                                       def qg = waitForQualityGate()
+                                       if (qg.status != 'OK') {
+                                           cerrarEmu()
+                                           enviarMailError( )
+                                           error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                                       }
+                                   }
+                               }
+                             }
+
+                            stage("BUILD ARTEFACTORY"){
+                                bat ("gradlew clean assembleCorporateDebug")
+                            }
+
+                            stage ("PUBLISH ARTEFACTORY"){
+
+                                ARTEFACTORY.RUTA_ARTEFACTORY = "Artefactory_IBK/sprint-${ARTEFACTORY.SPRINT_NUMBER}/${ARTEFACTORY.APP}/${env.BRANCH_NAME}/"
+
+                                def uploadSpec = """{"files": [{"pattern": "**/*corporate*.apk",  "target": "${ARTEFACTORY.RUTA_ARTEFACTORY}" }] }"""
+
+                                echo 'variablesssssssssssssss= ${uploadSpec}'
+
+                               if(ARTEFACTORY.PUBLISH_ARTEFACTORY==1){
+                                    def buildInfo2 =  server.upload(uploadSpec)
+                                    server.publishBuildInfo(buildInfo2)
+                               }
+                            }
+
+                            stage("SEND EMAIL OK"){
+                                    def files = findFiles(glob: '**/*.apk')
+                                    enviarMailOK("PATH : ${ARTEFACTORY.RUTA_ARTEFACTORY}","Artefactory: ${server.url}/${ARTEFACTORY.RUTA_ARTEFACTORY}/"+getNameFile(files))
+                            }
+
+                            cerrarEmu()
+
+                    } catch(Exception e){
+                                cerrarEmu()
+                               stage("SEND EMAIL ERROR"){
+                                    enviarMailError( )
+                                }
+                                throw e
+                    }
+            }
+    }
+
 
 def cerrarEmu(){
 try{ bat("adb emu kill") }catch(Exception e){}

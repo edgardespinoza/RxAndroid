@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="accent">#FF4081</color>
+    <color name="colorPrimary">#014F7D</color>
+    <color name="colorPrimaryDark">#004160</color>
+    <color name="colorAccent">#3DBED1</color>
+
+    <color name="window_background">#ffffff</color>
+
+    <color name="dialog_success_header">#198aac</color>
+
+    <color name="title_dialog_error">#E60379</color>
+
+    <color name="transparent">#00ffffff</color>
+
+    <!--Text-->
+    <color name="text_primary">#3c3c3c</color>
+    <color name="text_secondary">#a9a9a9</color>
+    <color name="text_error">#d60000</color>
+    <color name="text_on_primary">#ffffffff</color>
+    <color name="subtitle_on_primary">#deffffff</color>
+    <color name="text_white">#ffffff</color>
+    <color name="text_inactive">#4D000000</color>
+    <color name="text_financiado">#8DE36E</color>
+    <!--Buttons-->
+    <color name="button_primary">#68B63F</color>
+    <color name="button_primary_pressed">#579735</color>
+    <color name="button_dialog">#712c87</color>
+    <color name="button_dialog_pressed">#502060</color>
+    <color name="button_disabled">#a9a9a9</color>
+    <color name="text_button">#FFFFFF</color>
+    <color name="button_down_up">#e6e6e6</color>
+    <color name="button_position_white">#ffffff</color>
+    <color name="button_position_pressed_white">#a9a9a9</color>
+
+    <!--Tabs-->
+    <color name="tab_selected">#0f628a</color>
+    <color name="tab_unselected">#014F7D</color>
+    <color name="text_tab_unselected">#7fffffff</color>
+    <color name="text_tab_selected">#ffffffff</color>
+
+    <color name="table_header_background">#1989ae</color>
+    <color name="text_table_header">#ffffffff</color>
+    <color name="text_table_row_selected">@color/text_primary</color>
+    <color name="text_table_row_pressed">@color/text_primary</color>
+    <color name="text_table_row_enabled">@color/text_primary</color>
+    <color name="text_table_row_disabled">@color/text_primary</color>
+
+    <color name="list_divider">#f7f7f7</color>
+    <color name="list_divider_medium">#a9a9a9</color>
+
+    <color name="dim_background">#7f3c3c3c</color>
+
+    <color name="list_contract_listening">#198aac</color>
+    <color name="list_contract_listened">#eaeef7</color>
+
+    <color name="list_park_selected">#66a9a9a9</color>
+    <color name="list_park_pressed">#66a9a9a9</color>
+    <color name="list_park_enabled">#00000000</color>
+    <color name="list_park_disabled">#a9a9a9</color>
+
+    <color name="list_item_background_dark">#eaeef7</color>
+    <color name="list_item_background_light">#ffffff</color>
+
+    <color name="list_item_selected">#bbdefb</color>
+    <color name="list_item_title_product_0">#f0b71d</color>
+    <color name="list_item_title_product_1">#3366be</color>
+    <color name="list_item_title_product_2">#ff99a0</color>
+    <color name="list_item_title_product_3">#5bc500</color>
+    <color name="list_item_title_product_4">#f59c00</color>
+    <color name="list_item_title_product_5">#00a8df</color>
+    <color name="list_item_title_product_6">#954b98</color>
+    <color name="list_item_title_product_7">#00a9e0</color>
+    <color name="list_item_title_product_8">#99b1ff</color>
+    <color name="list_item_title_product_9">#9c9b9b</color>
+
+</resources>

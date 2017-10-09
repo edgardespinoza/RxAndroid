@@ -18,23 +18,25 @@ node{
                     checkout scm
                 }
 
-                stage("ANALYZE SONARQUBE"){
-                 	bat ("gradlew clean createCorporateDebugCoverageReport jacocoTestReport --info sonarqube")
-                }
-
-
-                stage("Quality Gate"){
-                    withSonarQubeEnv("SonarServidor"){
-                        timeout(time: 1, unit: 'HOURS') {
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                               // bat("adb emu kill")
-                                echo("ERROR..... ${qg.status}")
-                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                            }
+                 if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
+                    stage("ANALYZE SONARQUBE"){
+                       withSonarQubeEnv("SonarServidor"){
+                          bat ("gradlew clean createCorporateDebugCoverageReport jacocoTestReport --info sonarqube")
                         }
                     }
-                }
+
+
+                     stage("Quality Gate"){
+                       timeout(time: 1, unit: 'HOURS') {
+                           def qg = waitForQualityGate()
+                           if (qg.status != 'OK') {
+                               //bat("adb emu kill")
+                               enviarMailError( )
+                               error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                           }
+                       }
+                   }
+                 }
 
                 stage("BUILD ARTEFACTORY"){
                     bat ("gradlew clean assembleCorporateDebug")

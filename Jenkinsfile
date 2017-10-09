@@ -57,7 +57,8 @@ node{
                 }
 
                 stage("SEND EMAIL OK"){
-                        enviarMailOK("PATH : ${ARTEFACTORY.RUTA_ARTEFACTORY}","Artefactory: ${server.url} <BR> PATH : ${ARTEFACTORY.RUTA_ARTEFACTORY}")
+                        def files = findFiles(glob: '**/*.apk')
+                        enviarMailOK("PATH : ${ARTEFACTORY.RUTA_ARTEFACTORY}","Artefactory: ${server.url}/${ARTEFACTORY.RUTA_ARTEFACTORY}/"+getNameFile(files))
                 }
 
          }catch(Exception e){
@@ -66,6 +67,15 @@ node{
                     }
                     throw e
             }
+}
+
+def getNameFile(list) {
+    def name = ""
+      for(int i = 0; i < list.size(); i++) {
+          name = list[i].name
+
+        }
+    return name
 }
 
 

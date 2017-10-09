@@ -15,7 +15,9 @@ node{
         try{
 
         		stage("lanzando emulador"){
-        		        try{ bat ("%ANDROID_HOME%/tools/emulator @Nexus_5X_API_24") }catch(Exception e){}
+        		        try{
+        		            bat ("%ANDROID_HOME%/tools/emulator @Nexus_5X_API_24")
+        		        }catch(Exception e){}
                     }
                 }
 

@@ -14,9 +14,9 @@ parallel (
     "stream 1":
 	{
         node{
-			stage("lanzando emulador"){
+
                 bat ("%ANDROID_HOME%/tools/emulator @Nexus_5X_API_24 ")
-            }
+
         }
     },
     "stream 2":
@@ -50,6 +50,8 @@ parallel (
                                    }
                                }
                              }
+
+                             cerrarEmu()
 
                             stage("BUILD ARTEFACTORY"){
                                 bat ("gradlew clean assembleCorporateDebug")

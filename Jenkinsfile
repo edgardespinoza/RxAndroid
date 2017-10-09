@@ -25,7 +25,7 @@ parallel (
 
                     try{
 
-
+                            sleep 10
 
                             stage("GET SOURCE"){
                                 checkout scm
@@ -86,9 +86,10 @@ parallel (
             }
     }
 
+)
 
 def cerrarEmu(){
-try{ bat("adb emu kill") }catch(Exception e){}
+  try{ bat("adb emu kill") }catch(Exception e){}
 }
 
 def getNameFile(list) {

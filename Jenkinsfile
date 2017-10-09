@@ -18,8 +18,8 @@ node{
         		        try{
         		            bat ("%ANDROID_HOME%/tools/emulator @Nexus_5X_API_24")
         		        }catch(Exception e){}
-                    }
-                }
+                 }
+
 
 
                 stage("GET SOURCE"){
@@ -71,7 +71,7 @@ node{
 
                 cerrarEmu()
 
-        }catch(Exception e){
+        } catch(Exception e){
                     cerrarEmu()
                    stage("SEND EMAIL ERROR"){
                         enviarMailError( )

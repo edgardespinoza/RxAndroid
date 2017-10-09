@@ -14,6 +14,12 @@ node{
 
         try{
 
+        		stage("lanzando emulador"){
+        		        try{ bat ("%ANDROID_HOME%/tools/emulator @Nexus_5X_API_24") }catch(Exception e){}
+                    }
+                }
+
+
                 stage("GET SOURCE"){
                     checkout scm
                 }
@@ -30,7 +36,7 @@ node{
                        timeout(time: 1, unit: 'HOURS') {
                            def qg = waitForQualityGate()
                            if (qg.status != 'OK') {
-                               //bat("adb emu kill")
+                               cerrarEmu()
                                enviarMailError( )
                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
                            }
@@ -61,12 +67,19 @@ node{
                         enviarMailOK("PATH : ${ARTEFACTORY.RUTA_ARTEFACTORY}","Artefactory: ${server.url}/${ARTEFACTORY.RUTA_ARTEFACTORY}/"+getNameFile(files))
                 }
 
-         }catch(Exception e){
+                cerrarEmu()
+
+        }catch(Exception e){
+                    cerrarEmu()
                    stage("SEND EMAIL ERROR"){
                         enviarMailError( )
                     }
                     throw e
-            }
+        }
+}
+
+def cerrarEmu(){
+try{ bat("adb emu kill") }catch(Exception e){}
 }
 
 def getNameFile(list) {

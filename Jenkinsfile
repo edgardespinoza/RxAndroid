@@ -91,7 +91,7 @@ parallel (
 )
 
 def cerrarEmu(){
-  try{ bat("adb emu kill") }catch(Exception e){}
+  try{ bat("%ANDROID_HOME%/platform-tools/adb emu kill") }catch(Exception e){}
 }
 
 def getNameFile(list) {

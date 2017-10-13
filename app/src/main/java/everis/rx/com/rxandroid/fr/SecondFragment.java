@@ -63,6 +63,7 @@ public class SecondFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         ButterKnife.bind(this, view);
+        getActivity().setTitle("Restar");
         return view;
     }
 

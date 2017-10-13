@@ -62,6 +62,7 @@ public class multiplicar extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_multiplicar, container, false);
         ButterKnife.bind(this, view);
+        getActivity().setTitle("Multiplicar");
         return view;
     }
 

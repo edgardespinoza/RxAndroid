@@ -114,7 +114,7 @@ def enviarMailError( ){
 def enviarMail(subject, body){
     def date = new Date().format( 'dd/MM/yyyy HH:mm:ss' )
     def BODY_MAIL = "${body} <br> a las ${date} <br><br><br> Por favor no replicar este correo."
-    def DEFAULT_RECIPIENTS="eespinor@everis.com"
+    def DEFAULT_RECIPIENTS="eespinor@everis.com, ralf.alexander.saldana.bacalla@everis.com, paulo.rodrigo.noronha.orozco.st@everis.com"
 
     mail( body: "${BODY_MAIL}",
           from: "everisdemo123@gmail.com",

@@ -21,6 +21,26 @@ node ("casa"){
                                                 bat ("gradlew clean assembleCorporateDebug")
                   }
 
+                    if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
+                      stage("ANALYZE SONARQUBE"){
+                         withSonarQubeEnv("SonarServidor"){
+                            bat ("gradlew clean  sonarqube") //createCorporateDebugCoverageReport jacocoTestReport --info
+                          }
+                      }
+
+
+                       stage("Quality Gate"){
+                         timeout(time: 1, unit: 'HOURS') {
+                             def qg = waitForQualityGate()
+                             if (qg.status != 'OK') {
+                                 cerrarEmu()
+                                 enviarMailError( )
+                                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                             }
+                         }
+                     }
+                   }
+
                  stage ("PUBLISH ARTEFACTORY"){
 
                    ARTEFACTORY.RUTA_ARTEFACTORY = "Artefactory_IBK/sprint-${ARTEFACTORY.SPRINT_NUMBER}/${ARTEFACTORY.APP}/${env.BRANCH_NAME}/"

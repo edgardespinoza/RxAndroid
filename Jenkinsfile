@@ -21,12 +21,6 @@ node ("casa"){
                                                 bat ("gradlew clean assembleCorporateDebug")
                   }
 
-
-
-                stage("BUILD ARTEFACTORY"){
-                    bat ("gradlew clean assembleCorporateDebug")
-                }
-
                  stage ("PUBLISH ARTEFACTORY"){
 
                    ARTEFACTORY.RUTA_ARTEFACTORY = "Artefactory_IBK/sprint-${ARTEFACTORY.SPRINT_NUMBER}/${ARTEFACTORY.APP}/${env.BRANCH_NAME}/"

@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import everis.rx.com.rxandroid.util.Navigator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ListenerActivity{
 
     @Inject
     Navigator mNavigator;
@@ -16,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mNavigator = new Navigator();
+
+        ((ApplicationRx)getApplication()).getComponentRx().inject(this);
+
         mNavigator.navigateToFirstData(getSupportFragmentManager(), R.id.content );
 
     }

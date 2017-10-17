@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +15,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import everis.rx.com.rxandroid.ApplicationRx;
 import everis.rx.com.rxandroid.R;
 import butterknife.OnClick;
 import everis.rx.com.rxandroid.util.Navigator;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SecondFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SecondFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SecondFragment extends Fragment {
-
-    @Inject
-    Navigator mNavigator;
+public class SecondFragment extends BaseFragment {
 
     @BindView(R.id.id_a)
     EditText a;
@@ -40,20 +31,11 @@ public class SecondFragment extends Fragment {
     @BindView(R.id.id_c)
     TextView c;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -62,7 +44,6 @@ public class SecondFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_second, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -89,8 +70,7 @@ public class SecondFragment extends Fragment {
 
     @OnClick(R.id.btn_next)
     public void onNext() {
-
-        mNavigator = new Navigator();
+        Log.d("IBK", mNavigator.toString());
         mNavigator.navigateToMultiplicar(getFragmentManager(), R.id.content);
 
     }

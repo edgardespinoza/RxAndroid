@@ -17,14 +17,12 @@ node ("casa"){
                     checkout scm
                 }
 
-                  stage("BUILD ARTEFACTORY"){
-                                                bat ("gradlew clean assembleCorporateDebug")
-                  }
 
                  //   if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
                       stage("ANALYZE SONARQUBE"){
                          withSonarQubeEnv("SonarServidor"){
-                            bat ("gradlew clean  sonarqube") //createCorporateDebugCoverageReport jacocoTestReport --info
+                            bat ("gradlew clean --info sonarqube") //createCorporateDebugCoverageReport jacocoTestReport
+
                           }
                       }
 
@@ -40,6 +38,11 @@ node ("casa"){
                          }
                      }
                    //}
+
+
+                  stage("BUILD ARTEFACTORY"){
+                       bat ("gradlew clean assembleCorporateDebug")
+                  }
 
                  stage ("PUBLISH ARTEFACTORY"){
 

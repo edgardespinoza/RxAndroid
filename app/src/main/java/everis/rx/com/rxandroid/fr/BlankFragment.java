@@ -3,6 +3,7 @@ package everis.rx.com.rxandroid.fr;
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,13 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import everis.rx.com.rxandroid.ApplicationRx;
 import everis.rx.com.rxandroid.R;
 import everis.rx.com.rxandroid.util.Navigator;
 
 
-public class BlankFragment extends BaseConnectionFragment {
+public class BlankFragment extends BaseFragment {
 
-    @Inject
-    Navigator mNavigator;
 
     @BindView(R.id.id_a)
     EditText a;
@@ -33,20 +33,6 @@ public class BlankFragment extends BaseConnectionFragment {
 
     @BindView(R.id.id_c)
     TextView c;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
-    public BlankFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
@@ -60,7 +46,7 @@ public class BlankFragment extends BaseConnectionFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
-        ButterKnife.bind(this, view);
+
         return view;
     }
 
@@ -87,8 +73,8 @@ public class BlankFragment extends BaseConnectionFragment {
 
     @OnClick(R.id.btn_next)
     public void onNext() {
+        Log.d("IBK", mNavigator.toString());
 
-        mNavigator = new Navigator();
         mNavigator.navigateToSecondData(getFragmentManager(), R.id.content);
 
     }

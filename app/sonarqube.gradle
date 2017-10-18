@@ -1,7 +1,7 @@
 apply plugin: 'org.sonarqube'
 
 ext {
-    SONAR_HOST = "http://localhost:9000"
+    SONAR_HOST = "http://192.168.1.2:9000"
 }
 sonarqube() {
     //noinspection GroovyAssignabilityCheck

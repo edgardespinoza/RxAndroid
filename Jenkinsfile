@@ -22,13 +22,10 @@ node (){//"casa"
                       stage("ANALYZE SONARQUBE"){
                          withSonarQubeEnv("SonarServidor"){
 
-                            echo "sonarhost==${env.SONAR_HOST_URL}"
-                             echo "sonarhost==${SONAR_HOST_URL}"
-
                             //env.SONAR_HOST_URL  //inst.getServerUrl() //sonar.serverUrl
                            //  bat("gradlew clean assembleCorporateDebug lintCorporateDebug jacocoTestDevelopDebugUnitTestReport --info sonarqube")
                            //  bat("gradlew clean assembleCorporateDebug lintCorporateDebug --info sonarqube")
-                               bat("gradlew assembleCorporateDebug sonarqube -PHOST_SONAR=http://localhost:9000")
+                               bat("gradlew assembleCorporateDebug sonarqube -PHOST_SONAR=${env.SONAR_HOST_URL}")
                            //  bat ("gradlew clean createCorporateDebugCoverageReport jacocoTestReport --info sonarqube")
 
                           }

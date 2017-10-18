@@ -1,7 +1,7 @@
 apply plugin: 'org.sonarqube'
 
 ext {
-    SONAR_HOST = "http://localhost:9000"
+    SONAR_HOST = "http://192.168.1.2:9000"
 }
 sonarqube() {
     //noinspection GroovyAssignabilityCheck
@@ -25,7 +25,7 @@ sonarqube() {
 
         property "sonar.import_unknown_files", true
             property "sonar.android.lint.report", "./build/outputs/lint-results.xml"
-  //      property "sonar.host.url", SONAR_HOST
+        property "sonar.host.url", SONAR_HOST
         property "sonar.tests", "./src/test/, ./src/androidTest/"
         property "sonar.jacoco.reportPath", fileTree(dir: project.projectDir, includes: ['**/*.exec'])
         property "sonar.java.test.binaries", "${project.buildDir}/intermediates/classes/corporate/debug"

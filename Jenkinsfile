@@ -25,7 +25,7 @@ node (){//"casa"
                             //env.SONAR_HOST_URL  //inst.getServerUrl() //sonar.serverUrl
                            //  bat("gradlew clean assembleCorporateDebug lintCorporateDebug jacocoTestDevelopDebugUnitTestReport --info sonarqube")
                            //  bat("gradlew clean assembleCorporateDebug lintCorporateDebug --info sonarqube")
-                               bat("gradlew assembleCorporateDebug sonarqube -PHOST_SONAR=${env.SONAR_HOST_URL}")
+                               bat("gradlew assembleCorporateDebug lintCorporateDebug --info sonarqube -PHOST_SONAR=${env.SONAR_HOST_URL}")
                            //  bat ("gradlew clean createCorporateDebugCoverageReport jacocoTestReport --info sonarqube")
 
                           }

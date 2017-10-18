@@ -4,7 +4,8 @@ def ARTEFACTORY = [
   APP : "android",
   NAME_FUNCTIONALITY : "",
   PUBLISH_ARTEFACTORY : 1,
-  RUTA_ARTEFACTORY:""
+  RUTA_ARTEFACTORY:"",
+
 ]
 def server = Artifactory.server 'artefactoryID'
 
@@ -20,12 +21,12 @@ node (){//"casa"
 
                  //   if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
                       stage("ANALYZE SONARQUBE"){
-                         withSonarQubeEnv("SonarServidor"){
-
-                            //env.SONAR_HOST_URL  //inst.getServerUrl() //sonar.serverUrl
+                         withSonarQubeEnv("SonarServidor") {
+                            //v1
                            //  bat("gradlew clean assembleCorporateDebug lintCorporateDebug jacocoTestDevelopDebugUnitTestReport --info sonarqube")
-                           //  bat("gradlew clean assembleCorporateDebug lintCorporateDebug --info sonarqube")
+
                                bat("gradlew assembleCorporateDebug lintCorporateDebug --info sonarqube -PHOST_SONAR=${env.SONAR_HOST_URL}")
+                             // con prueba emulator
                            //  bat ("gradlew clean createCorporateDebugCoverageReport jacocoTestReport --info sonarqube")
 
                           }
@@ -36,7 +37,6 @@ node (){//"casa"
                          timeout(time: 1, unit: 'HOURS') {
                              def qg = waitForQualityGate()
                              if (qg.status != 'OK') {
-                               //  cerrarEmu()
                                  enviarMailError( )
                                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
                              }
@@ -82,7 +82,6 @@ def getNameFile(list) {
     def name = ""
       for(int i = 0; i < list.size(); i++) {
           name = list[i].name
-
       }
     return name
 }

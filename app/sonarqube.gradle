@@ -1,9 +1,47 @@
 apply plugin: 'org.sonarqube'
 
-ext {
-    SONAR_HOST = "http://192.168.1.2:9000"
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+def getCurrentFlavor() {
+    Gradle gradle = getGradle()
+    String  tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+
+    Pattern pattern;
+
+    if( tskReqStr.contains( "assemble" ) )
+        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+    else if( tskReqStr.contains( "lint" ) )
+        pattern = Pattern.compile("lint(\\w+)(Release|Debug)")
+    else
+       pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
+
+    Matcher matcher = pattern.matcher( tskReqStr )
+
+    if( matcher.find() )
+        return matcher.group(1).toLowerCase()
+    else
+    {
+        println "NO MATCH FOUND"
+        return "";
+    }
 }
+
+def getCurrentApplicationId() {
+    def currFlavor = getCurrentFlavor()
+
+    def outStr = ''
+    android.productFlavors.all{ flavor ->
+
+        if( flavor.name==currFlavor )
+            outStr=flavor.applicationId
+    }
+
+    return outStr
+}
+//gradlew assembleCorporateDebug sonarqube -PHOST_SONAR=http://localhost:9000
 sonarqube() {
+    def flavor = getCurrentFlavor();
     //noinspection GroovyAssignabilityCheck
     properties {
         /* SonarQube needs to be informed about your libraries and the android.jar to understand that methods like
@@ -19,16 +57,17 @@ sonarqube() {
         property "sonar.sources", "./src/main/"
         property "sonar.libraries", libraries
         property "sonar.binaries", "/intermediates/classes/dev/debug"
-        property "sonar.java.binaries", "${project.buildDir}/intermediates/classes/corporate/debug"
+        property "sonar.java.binaries", "${project.buildDir}/intermediates/classes/${flavor}/debug"
         property "sonar.java.libraries", libraries
         property "sonar.exclusions", "build/**,**/*.png,*.iml, **/*generated*, "
 
         property "sonar.import_unknown_files", true
-            property "sonar.android.lint.report", "./build/outputs/lint-results.xml"
-        property "sonar.host.url", SONAR_HOST
+        property "sonar.android.lint.report", "./build/outputs/lint-results.xml"
+        //property "sonar.host.url", SONAR_HOST
+        property "sonar.host.url", project.getProperty('HOST_SONAR')
         property "sonar.tests", "./src/test/, ./src/androidTest/"
         property "sonar.jacoco.reportPath", fileTree(dir: project.projectDir, includes: ['**/*.exec'])
-        property "sonar.java.test.binaries", "${project.buildDir}/intermediates/classes/corporate/debug"
+        property "sonar.java.test.binaries", "${project.buildDir}/intermediates/classes/${flavor}/debug"
         property "sonar.jacoco.itReportPath", fileTree(dir: project.projectDir, includes: ['**/*.ec'])
         property "sonar.java.test.libraries", libraries
 

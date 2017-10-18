@@ -21,7 +21,7 @@ node ("casa"){
                  //   if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
                       stage("ANALYZE SONARQUBE"){
                          withSonarQubeEnv("SonarServidor"){
-                            bat ("gradlew clean --info sonarqube") //createCorporateDebugCoverageReport jacocoTestReport
+                            bat ("gradlew clean assembleCorporateDebug  --info sonarqube") //createCorporateDebugCoverageReport jacocoTestReport
 
                           }
                       }

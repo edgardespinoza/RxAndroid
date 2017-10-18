@@ -21,13 +21,16 @@ node ("casa"){
                  //   if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
                       stage("ANALYZE SONARQUBE"){
                          withSonarQubeEnv("SonarServidor"){
-                            bat ("gradlew clean assembleCorporateDebug  --info sonarqube") //createCorporateDebugCoverageReport jacocoTestReport
+
+                           // bat("gradlew clean assembleCorporateDebug lintCorporateDebug jacocoTestDevelopDebugUnitTestReport --info sonarqube")
+                           bat("gradlew clean assembleCorporateDebug lintCorporateDebug --info sonarqube")
+                            //bat ("gradlew clean assembleCorporateDebug  createCorporateDebugCoverageReport jacocoTestReport --info sonarqube") //
 
                           }
                       }
 
 
-                      /* stage("Quality Gate"){
+                       stage("Quality Gate"){
                          timeout(time: 1, unit: 'HOURS') {
                              def qg = waitForQualityGate()
                              if (qg.status != 'OK') {
@@ -36,7 +39,7 @@ node ("casa"){
                                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
                              }
                          }
-                     }*/
+                     }
                    //}
 
 

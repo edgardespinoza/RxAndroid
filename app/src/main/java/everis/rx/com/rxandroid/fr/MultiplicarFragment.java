@@ -63,7 +63,7 @@ public class MultiplicarFragment extends BaseFragment {
     public void onStartChangePasswordClick() {
         int ant = Integer.parseInt(a.getText().toString());
         int bnt = Integer.parseInt(b.getText().toString());
-        c.setText(""+(ant*bnt));
+        c.setText(""+Integer.valueOf(ant*bnt));
 
     }
 

@@ -27,7 +27,7 @@ node ("casa"){
                       }
 
 
-                       stage("Quality Gate"){
+                      /* stage("Quality Gate"){
                          timeout(time: 1, unit: 'HOURS') {
                              def qg = waitForQualityGate()
                              if (qg.status != 'OK') {
@@ -36,7 +36,7 @@ node ("casa"){
                                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
                              }
                          }
-                     }
+                     }*/
                    //}
 
 

@@ -11,14 +11,14 @@ def ARTEFACTORY = [
   UNIT_TEST : 1,
   RUTA_ARTEFACTORY:"",
   BUILD_FLAVOR:"Corporate",   //define el flavor de compilacion |DeployStore|Corporate
-  ETIQUETA_SLAVE:"",  //"casa" //etiqueta del slave jenkins si es vacio se compila en el master,
+ // ETIQUETA_SLAVE:"",  //"casa" //etiqueta del slave jenkins si es vacio se compila en el master,
   NAME_FILE_ARTEFACTORY:""
 ]
 
 def server = Artifactory.server 'artefactoryID'
 
 
-node (){
+node (){//casa
 
         try{
 

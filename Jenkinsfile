@@ -14,10 +14,11 @@ def ARTEFACTORY = [
   ETIQUETA_SLAVE:"",  //"casa" //etiqueta del slave jenkins si es vacio se compila en el master,
   NAME_FILE_ARTEFACTORY:""
 ]
+
 def server = Artifactory.server 'artefactoryID'
 
 
-node (ARTEFACTORY.ETIQUETA_SLAVE){
+node (){
 
         try{
 

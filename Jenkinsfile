@@ -2,6 +2,9 @@
  @author: edgard espinoza
  @description:
 */
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 def ARTEFACTORY = [
   SPRINT_NUMBER : "25",         //numero de la version
   APP : "android",              //si es android o ios

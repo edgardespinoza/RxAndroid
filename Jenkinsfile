@@ -1,16 +1,20 @@
-
+/*
+ @author: edgard espinoza
+ @description:
+*/
 def ARTEFACTORY = [
-  SPRINT_NUMBER : "25",
-  APP : "android",
-  NAME_FUNCTIONALITY : "",
+  SPRINT_NUMBER : "25",         //numero de la version
+  APP : "android",              //si es android o ios
   PUBLISH_ARTEFACTORY : 1,
+  UNIT_TEST : 1,
   RUTA_ARTEFACTORY:"",
-
+  BUILD_FLAVOR="Corporate",   //define el flavor de compilacion |DeployStore|Corporate
+  ETIQUETA_SLAVE=""  //"casa" //etiqueta del slave jenkins si es vacio se compila en el master
 ]
 def server = Artifactory.server 'artefactoryID'
 
 
-node (){//"casa"
+node (ARTEFACTORY.ETIQUETA_SLAVE){
 
         try{
 
@@ -19,17 +23,17 @@ node (){//"casa"
                 }
 
 
-                 //   if (env.BRANCH_NAME != "develop" || env.BRANCH_NAME != "master") {
+                if (  env.BRANCH_NAME != "master" && ARTEFACTORY.UNIT_TEST == 1 ) {
                       stage("ANALYZE SONARQUBE"){
-                         withSonarQubeEnv("SonarServidor") {
-                            //v1
-                           //  bat("gradlew clean assembleCorporateDebug lintCorporateDebug jacocoTestDevelopDebugUnitTestReport --info sonarqube")
+                          withSonarQubeEnv("SonarServidor") {
+                                //v1
+                               //  bat("gradlew clean assemble${ARTEFACTORY.BUILD_FLAVOR}Debug lint${ARTEFACTORY.BUILD_FLAVOR}Debug jacocoTestDevelopDebugUnitTestReport --info sonarqube")
 
-                               bat("gradlew assembleCorporateDebug lintCorporateDebug --info sonarqube -PHOST_SONAR=${env.SONAR_HOST_URL}")
-                             // con prueba emulator
-                           //  bat ("gradlew clean createCorporateDebugCoverageReport jacocoTestReport --info sonarqube")
+                                   bat("gradlew clean assemble${ARTEFACTORY.BUILD_FLAVOR}Debug lint${ARTEFACTORY.BUILD_FLAVOR}Debug --info sonarqube -PHOST_SONAR=${env.SONAR_HOST_URL}")
+                                 // con prueba emulator
+                               //  bat ("gradlew clean create${ARTEFACTORY.BUILD_FLAVOR}DebugCoverageReport jacocoTestReport --info sonarqube")
 
-                          }
+                              }
                       }
 
 
@@ -41,22 +45,22 @@ node (){//"casa"
                                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
                              }
                          }
-                     }
-                   //}
+                       }
+                }
 
 
                   stage("BUILD ARTEFACTORY"){
-                       bat ("gradlew clean assembleCorporateDebug")
+                       bat ("gradlew clean assemble${ARTEFACTORY.BUILD_FLAVOR}Debug")
                   }
 
                  stage ("PUBLISH ARTEFACTORY"){
 
                    ARTEFACTORY.RUTA_ARTEFACTORY = "Artefactory_IBK/sprint-${ARTEFACTORY.SPRINT_NUMBER}/${ARTEFACTORY.APP}/${env.BRANCH_NAME}/"
 
-                   def uploadSpec = """{"files": [{"pattern": "**/*corporate*.apk",  "target": "${ARTEFACTORY.RUTA_ARTEFACTORY}" }] }"""
+                   def uploadSpec = """{"files": [{"pattern": "**/*${ARTEFACTORY.BUILD_FLAVOR.toLowerCase()}*.apk",  "target": "${ARTEFACTORY.RUTA_ARTEFACTORY}" }] }"""
 
 
-                  if(ARTEFACTORY.PUBLISH_ARTEFACTORY==1){
+                  if( ARTEFACTORY.PUBLISH_ARTEFACTORY == 1 ){
                        def buildInfo2 =  server.upload(uploadSpec)
                        server.publishBuildInfo(buildInfo2)
                   }
@@ -77,6 +81,18 @@ node (){//"casa"
 
 
 
+def getSprint(nameArtefactory){
+    //BancaMovil-Y17SP25v1GT-corporate-debug.apk
+
+    Pattern pattern = Pattern.compile("SP(.*?)v");
+    Matcher matcher = pattern.matcher(nameArtefactory);
+    if (matcher.matches()) {
+        return (matcher.group(1));
+    }else{
+        return "";
+    }
+}
+
 
 def getNameFile(list) {
     def name = ""
@@ -87,7 +103,7 @@ def getNameFile(list) {
 }
 
 
-def enviarMailOK(  subject,   body){
+def enviarMailOK( subject,   body){
     enviarMail("EnvioCorreo - Ejecucion Exitosa   ${subject} ", "Ejecucion exitosa  <BR> ${body}")
 }
 

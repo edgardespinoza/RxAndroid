@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply from: './jacoco.gradle'
-apply from: './sonarqube.gradle'
 
 android {
     dexOptions {
@@ -32,11 +31,11 @@ android {
     buildTypes {
         debug {
 
-            debuggable true
-            testCoverageEnabled true
+          //  debuggable true
+          //  testCoverageEnabled true
         }
         release {
-            debuggable false
+          //  debuggable false
 
         }
     }
@@ -63,7 +62,7 @@ android {
         }
     }
 
-    lintOptions {
+   /* lintOptions {
         abortOnError false
     }
 
@@ -73,7 +72,7 @@ android {
                 includeNoLocationClasses = true
             }
         }
-    }
+    }*/
 }
 
 dependencies {

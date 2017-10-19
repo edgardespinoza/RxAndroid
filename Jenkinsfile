@@ -26,6 +26,10 @@ node (){//casa
                     checkout scm
                 }
 
+                stage("COPY ARTEFACTORY"){
+
+                }
+
 
                 if (  env.BRANCH_NAME != "master" && ARTEFACTORY.UNIT_TEST == 1 ) {
                       stage("ANALYZE SONARQUBE"){
@@ -63,17 +67,10 @@ node (){//casa
 
                            def files = findFiles(glob: '**/*.apk')
 
-                           echo ("ARTEFACTORY.files= " + files)
-
                            ARTEFACTORY.NAME_FILE_ARTEFACTORY =  getNameFile(files)
-
-
-                           echo ("ARTEFACTORY.files= " + ARTEFACTORY.NAME_FILE_ARTEFACTORY)
-
 
                            ARTEFACTORY.SPRINT_NUMBER = getSprintNumber(ARTEFACTORY.NAME_FILE_ARTEFACTORY)
 
-                           echo ("ARTEFACTORY.SPRINT_NUMBER= ${ARTEFACTORY.SPRINT_NUMBER}")
                    }
 
                   stage ("PUBLISH ARTEFACTORY"){

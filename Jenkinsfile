@@ -26,8 +26,10 @@ node (){//casa
                     checkout scm
                 }
 
-                stage("COPY ARTEFACTORY"){
-
+                stage("PROCESS SOURCE"){
+                    bat ("xcopy /s %IBK_HOME%\* /Y")
+                    bat ("javac ReplaceFile.java")
+                    bat ("java ReplaceFile")
                 }
 
 

@@ -2,17 +2,17 @@
  @author: edgard espinoza
  @description:
 */
-import java.util.regex.Matcher
-import java.util.regex.Pattern
+
 
 def ARTEFACTORY = [
-  SPRINT_NUMBER : "25",         //numero de la version
+  SPRINT_NUMBER : "",         //numero de la version
   APP : "android",              //si es android o ios
   PUBLISH_ARTEFACTORY : 1,
   UNIT_TEST : 1,
   RUTA_ARTEFACTORY:"",
   BUILD_FLAVOR:"Corporate",   //define el flavor de compilacion |DeployStore|Corporate
-  ETIQUETA_SLAVE:""  //"casa" //etiqueta del slave jenkins si es vacio se compila en el master
+  ETIQUETA_SLAVE:"",  //"casa" //etiqueta del slave jenkins si es vacio se compila en el master,
+  NAME_FILE_ARTEFACTORY:""
 ]
 def server = Artifactory.server 'artefactoryID'
 
@@ -58,6 +58,12 @@ node (ARTEFACTORY.ETIQUETA_SLAVE){
 
                  stage ("PUBLISH ARTEFACTORY"){
 
+                   def files = findFiles(glob: '**/*.apk')
+                   ARTEFACTORY.NAME_FILE_ARTEFACTORY =  getNameFile(files)
+                   ARTEFACTORY.SPRINT_NUMBER = getSprint(ARTEFACTORY.NAME_FILE_ARTEFACTORY)
+
+                   echo ("ARTEFACTORY.SPRINT_NUMBER= ${ARTEFACTORY.SPRINT_NUMBER}")
+
                    ARTEFACTORY.RUTA_ARTEFACTORY = "Artefactory_IBK/sprint-${ARTEFACTORY.SPRINT_NUMBER}/${ARTEFACTORY.APP}/${env.BRANCH_NAME}/"
 
                    def uploadSpec = """{"files": [{"pattern": "**/*${ARTEFACTORY.BUILD_FLAVOR.toLowerCase()}*.apk",  "target": "${ARTEFACTORY.RUTA_ARTEFACTORY}" }] }"""
@@ -70,8 +76,8 @@ node (ARTEFACTORY.ETIQUETA_SLAVE){
                }
 
                stage("SEND EMAIL OK"){
-                       def files = findFiles(glob: '**/*.apk')
-                       enviarMailOK("PATH : ${ARTEFACTORY.RUTA_ARTEFACTORY}","apk <b>: ${server.url}/${ARTEFACTORY.RUTA_ARTEFACTORY}/"+getNameFile(files) +"<b>")
+
+                       enviarMailOK("PATH : ${ARTEFACTORY.RUTA_ARTEFACTORY}","apk <b>: ${server.url}/${ARTEFACTORY.RUTA_ARTEFACTORY}/${ARTEFACTORY.NAME_FILE_ARTEFACTORY}<b>")
                }
 
          }catch(Exception e){
@@ -87,13 +93,8 @@ node (ARTEFACTORY.ETIQUETA_SLAVE){
 def getSprint(nameArtefactory){
     //BancaMovil-Y17SP25v1GT-corporate-debug.apk
 
-    Pattern pattern = Pattern.compile("SP(.*?)v");
-    Matcher matcher = pattern.matcher(nameArtefactory);
-    if (matcher.matches()) {
-        return (matcher.group(1));
-    }else{
-        return "";
-    }
+    def finder = (nameArtefactory =~ /SP(.*?)v/)
+    return finder.group(1)
 }
 
 

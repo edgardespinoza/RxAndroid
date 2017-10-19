@@ -8,8 +8,8 @@ def ARTEFACTORY = [
   PUBLISH_ARTEFACTORY : 1,
   UNIT_TEST : 1,
   RUTA_ARTEFACTORY:"",
-  BUILD_FLAVOR="Corporate",   //define el flavor de compilacion |DeployStore|Corporate
-  ETIQUETA_SLAVE=""  //"casa" //etiqueta del slave jenkins si es vacio se compila en el master
+  BUILD_FLAVOR:"Corporate",   //define el flavor de compilacion |DeployStore|Corporate
+  ETIQUETA_SLAVE:""  //"casa" //etiqueta del slave jenkins si es vacio se compila en el master
 ]
 def server = Artifactory.server 'artefactoryID'
 

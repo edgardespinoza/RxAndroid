@@ -60,8 +60,16 @@ node (){
                  stage ("PUBLISH ARTEFACTORY"){
 
                    def files = findFiles(glob: '**/*.apk')
+
+                   echo ("ARTEFACTORY.files= " + files)
+
                    ARTEFACTORY.NAME_FILE_ARTEFACTORY =  getNameFile(files)
-                   ARTEFACTORY.SPRINT_NUMBER = getSprint(ARTEFACTORY.NAME_FILE_ARTEFACTORY)
+
+
+                   echo ("ARTEFACTORY.files= " + ARTEFACTORY.NAME_FILE_ARTEFACTORY)
+
+
+                   ARTEFACTORY.SPRINT_NUMBER = getSprintNumber(ARTEFACTORY.NAME_FILE_ARTEFACTORY)
 
                    echo ("ARTEFACTORY.SPRINT_NUMBER= ${ARTEFACTORY.SPRINT_NUMBER}")
 
@@ -91,13 +99,14 @@ node (){
 
 
 
-def getSprint(nameArtefactory){
-    //BancaMovil-Y17SP25v1GT-corporate-debug.apk
+@NonCPS
+def getSprintNumber(nameArtefactory){
 
-    def finder = (nameArtefactory =~ /SP(.*?)v/)
-    return finder.group(1)
+    def s = nameArtefactory =~ /SP(.*)v/
+
+    while (s.find())  return s.group(1)
+
 }
-
 
 def getNameFile(list) {
     def name = ""

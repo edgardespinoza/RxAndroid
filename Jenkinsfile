@@ -57,21 +57,26 @@ node (){//casa
                        bat ("gradlew clean assemble${ARTEFACTORY.BUILD_FLAVOR}Debug")
                   }
 
-                 stage ("PUBLISH ARTEFACTORY"){
-
-                   def files = findFiles(glob: '**/*.apk')
-
-                   echo ("ARTEFACTORY.files= " + files)
-
-                   ARTEFACTORY.NAME_FILE_ARTEFACTORY =  getNameFile(files)
 
 
-                   echo ("ARTEFACTORY.files= " + ARTEFACTORY.NAME_FILE_ARTEFACTORY)
+                  stage("PROCESS ARTEFACTORY"){
+
+                           def files = findFiles(glob: '**/*.apk')
+
+                           echo ("ARTEFACTORY.files= " + files)
+
+                           ARTEFACTORY.NAME_FILE_ARTEFACTORY =  getNameFile(files)
 
 
-                   ARTEFACTORY.SPRINT_NUMBER = getSprintNumber(ARTEFACTORY.NAME_FILE_ARTEFACTORY)
+                           echo ("ARTEFACTORY.files= " + ARTEFACTORY.NAME_FILE_ARTEFACTORY)
 
-                   echo ("ARTEFACTORY.SPRINT_NUMBER= ${ARTEFACTORY.SPRINT_NUMBER}")
+
+                           ARTEFACTORY.SPRINT_NUMBER = getSprintNumber(ARTEFACTORY.NAME_FILE_ARTEFACTORY)
+
+                           echo ("ARTEFACTORY.SPRINT_NUMBER= ${ARTEFACTORY.SPRINT_NUMBER}")
+                   }
+
+                  stage ("PUBLISH ARTEFACTORY"){
 
                    ARTEFACTORY.RUTA_ARTEFACTORY = "Artefactory_IBK/sprint-${ARTEFACTORY.SPRINT_NUMBER}/${ARTEFACTORY.APP}/${env.BRANCH_NAME}/"
 

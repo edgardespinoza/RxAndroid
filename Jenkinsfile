@@ -27,7 +27,7 @@ node (){//casa
                 }
 
                 stage("PROCESS SOURCE"){
-                    bat ("xcopy /s %IBK_HOME%/* /Y")
+                    bat ("xcopy /s %IBK_HOME%\\* /Y")
                     bat ("javac ReplaceFile.java")
                     bat ("java ReplaceFile")
                 }

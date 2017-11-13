@@ -1,6 +1,7 @@
 package everis.rx.com.rxandroid.fr;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,13 +15,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import everis.rx.com.rxandroid.ApplicationRx;
 import everis.rx.com.rxandroid.R;
+import butterknife.OnClick;
 import everis.rx.com.rxandroid.util.Navigator;
 
-
-public class MultiplicarFragment extends BaseFragment {
+public class PagoAguaFragment extends BaseFragment {
 
     @BindView(R.id.id_a)
     EditText a;
@@ -31,9 +31,11 @@ public class MultiplicarFragment extends BaseFragment {
     @BindView(R.id.id_c)
     TextView c;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -41,8 +43,7 @@ public class MultiplicarFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_multiplicar, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_second, container, false);
         return view;
     }
 
@@ -63,15 +64,16 @@ public class MultiplicarFragment extends BaseFragment {
     public void onStartChangePasswordClick() {
         int ant = Integer.parseInt(a.getText().toString());
         int bnt = Integer.parseInt(b.getText().toString());
-        c.setText(""+Integer.valueOf(ant*bnt));
+        c.setText(""+(ant-bnt));
 
     }
 
     @OnClick(R.id.btn_next)
     public void onNext() {
         Log.d("IBK", mNavigator.toString());
-        mNavigator.navigateToFirstData(getFragmentManager(), R.id.content);
+        mNavigator.navigateToMultiplicar(getFragmentManager(), R.id.content);
 
     }
+
 
 }

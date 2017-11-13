@@ -5,13 +5,10 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import everis.rx.com.rxandroid.R;
-import everis.rx.com.rxandroid.fr.BlankFragment;
-import everis.rx.com.rxandroid.fr.MultiplicarFragment;
-import everis.rx.com.rxandroid.fr.SecondFragment;
+import everis.rx.com.rxandroid.fr.PagoAguaFragment;
+import everis.rx.com.rxandroid.fr.PagoLuzFragment;
+import everis.rx.com.rxandroid.fr.TrasferenciaFragment;
 
 
 public class Navigator {
@@ -20,7 +17,7 @@ public class Navigator {
        final FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
 
-        BlankFragment f = new BlankFragment();
+        PagoLuzFragment f = new PagoLuzFragment();
         ft.replace(containerId, f);
         ft.addToBackStack(null);
         ft.commitAllowingStateLoss();
@@ -31,7 +28,7 @@ public class Navigator {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
 
-        SecondFragment f = new SecondFragment();
+        PagoAguaFragment f = new PagoAguaFragment();
         ft.replace(containerId, f);
         ft.addToBackStack(null);
         ft.commitAllowingStateLoss();
@@ -41,7 +38,7 @@ public class Navigator {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
 
-        MultiplicarFragment f = new MultiplicarFragment();
+        TrasferenciaFragment f = new TrasferenciaFragment();
         ft.replace(containerId, f);
         ft.addToBackStack(null);
         ft.commitAllowingStateLoss();

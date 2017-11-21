@@ -8,7 +8,7 @@ def ARTEFACTORY = [
 ]
 
 def server = Artifactory.server 'artefactoryID'
-
+/*
 parallel (
 
     "stream 1":
@@ -20,7 +20,7 @@ parallel (
         }
     },
     "stream 2":
-    {
+    {*/
             node{
 
                     try{
@@ -85,9 +85,9 @@ parallel (
                                 throw e
                     }
             }
-    }
+   // }
 
-)
+//)
 
 def cerrarEmu(){
   try{ bat("%ANDROID_HOME%/platform-tools/adb emu kill") }catch(Exception e){}
